@@ -1,0 +1,60 @@
+{% extends "main/header.html" %}
+
+    {% block content %}
+
+    <!--Blog-->
+    <div class="container py-5">
+        {% if tag %}
+            <h1 class="font-weight-bold">{{ tag }}</h1>
+        {% else %}
+            <h1 class="font-weight-bold">Articles</h1>
+        {% endif %}
+        <hr>
+        <br>
+        <div class="row">
+            {% for b in blog %}
+                <a href="/{{ b.article_slug }}" style="text-decoration: none">
+                    <div class="col-12 pb-4 text-dark">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12 my-auto">
+                                <img src="{{ b.article_image.url }}" class="img-fluid rounded" alt="{{ b.article_name }}">
+                            </div>
+                            <div class="col-lg-8 col-md-6 col-sm-12 my-auto">
+                                <p>
+                                    {% for tag in b.article_tags.all %}
+                                        <span class="badge badge-primary" style ="font-size:14px; color: white">{{ tag }}</span>
+                                    {% endfor %}
+                                </p>
+                                <h5>{{ b.article_title }}</h5>
+                                <p class="card-text text-muted" style="font-size:12px">{{ b.article_published }}</p>
+                                <p>{{ b.article_content|safe|truncatewords:25 }}</p>
+                                <button class="btn btn-outline-dark btn-sm">View post</button>
+                            </div>   
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <!--Pagination-->
+        <div class="container"> 
+            <div class="pagination justify-content-center">
+                <span class="step-links">
+                    {% if blog.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ blog.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ blog.number }} of {{ blog.paginator.num_pages }}
+                    </span>
+                    {% if blog.has_next %}
+                        <a href="?page={{ blog.next_page_number }}">next</a>
+                        <a href="?page={{ blog.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <!--end of Pagination-->
+      </div>
+
+    {% endblock %}

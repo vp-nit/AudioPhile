@@ -1,0 +1,142 @@
+{% extends 'main/header.html' %}
+
+  {% block content %}
+
+  {% load static %}
+
+  <!--CTA-->
+	<div class="cta-banner"> 
+	    <div class="container py-5">
+	    	<div class="row">
+	        	<div class="col-sm-12 col-md-12 col-lg-6 pb-4">
+              <h1 class="cta-message display-4 font-weight-bold">Elevate your listening</h1>
+	          	<h5>Everyday headphones that make your favorite artists sound like their performing a never-ending encore.</h5>
+	          	<a class="btn btn-primary mt-2" href="/products">FIND YOUR SET</a>
+	        	</div>
+	      	</div>
+	    </div>
+	</div>
+
+  <!--Headlines-->
+<div class="container pt-5">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-12 pb-4">
+        <h5 class="text-primary">New + updated</h5>
+        <hr>
+        {% for n in new_posts %}
+          <a class="text-dark" href="{{ n.article_slug }}">
+            <h3>{{ n.article_title }}</h3>
+            <p class="text-muted" style="font-size:12px">{{ n.article_published }}</p>  
+          </a> 
+          <hr>   
+        {% endfor %}
+      </div>
+      <div class="col-lg-7 col-md-7 col-sm-12 pb-4">
+        <a class="text-dark" href="/{{ most_recent.article_slug }}" style="text-decoration: none">
+          <img src="{{ most_recent.article_image.url }}" class="card-img-top" alt="{{most_recent.article_name }}">            
+          <div class="card-body">
+            <h3 class="card-title">{{ most_recent.article_title }}</h3>
+            <p class="card-text text-muted" style="font-size:12px">{{ most_recent.article_published }}</p>
+            <p class="card-text">{{ most_recent.article_content|safe|truncatewords:50}}</p>
+            <button class="btn btn-primary btn-sm">Read more</button>
+          </div> 
+        </a>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12 pb-4">
+        <h5 class="text-primary">Featured</h5>
+        <hr>
+        {% for f in featured %}
+          <a class="text-dark" href="/{{ f.article_slug }}">
+            <img src="{{ f.article_image.url }}" class="card-img-top" alt="{{f.article_name }}">  
+            <h6>{{ f.article_title }}</h6>
+            <p class="text-muted" style="font-size:12px">{{ f.article_published }}</p>  
+          </a> 
+          <hr>   
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!--Products-->
+  <div class="container py-3">
+  	<h2>Products</h2>
+  	<hr>
+  	<br>
+    <div class="row">
+      {% for p in product %}
+        <div class="col-sm-12 col-md-6 col-lg-3 pb-4">
+          <div class="card h-100" style="border:none">
+            <img src="{{ p.product_image.url }}" class="card-img-top" alt="{{ p.product_name}}" style="width: auto; height: 250px; object-fit: scale-down;">
+            <div class="card-body">
+              <h5 class="card-title">{{ p.product_name }}</h5>
+              <p class="card-text text-muted" style="font-size:12px">{{ p.product_type }}</p>
+              <p class="card-text">{{ p.product_description }}</p>
+              <p class="text-muted" style="font-size:12px">Comfort: {{ p.comfort_average }} | Performance: {{ p.performance_average }} | Durability: {{ p.durability_average }}</p>
+              <a href="{{ p.affiliate_url }}" class="btn btn-warning">Buy now</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="container text-right">
+        <a href="/products">View more</a>
+    </div>
+  </div>
+
+  <!--Blog-->
+  <div class="container py-3">
+    <h2>Recent Posts</h2>
+    <hr>
+    <br>
+    <div class="row">
+      {% for n in new_posts %}
+        <a href="/{{ n.article_slug }}" style="text-decoration: none">
+          <div class="col-12 pb-4 text-dark">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 col-sm-12 my-auto">
+                <img src="{{ n.article_image.url }}" class="card-img" alt="{{ n.article_name }}">
+              </div>
+              <div class="col-lg-8 col-md-6 col-sm-12 my-auto">
+                <p>
+                  {% for tag in n.article_tags.all %}
+                    <span class="badge badge-primary" style="font-size:14px;">{{ tag }}</span>
+                  {% endfor %}
+                </p>
+                <h5>{{ n.article_title }}</h5>
+                <p class="text-muted" style="font-size:12px">{{ n.article_published }}</p>
+                <p>{{ n.article_content|safe|truncatewords:45 }}</p>
+                </div>
+              </div>
+            </div>
+        </a>
+      {% endfor %}
+    </div>
+    <div class="container text-right">
+      <a href="/blog/articles">View more</a>
+    </div>
+  </div>
+
+  <style>
+    .cta-banner {
+      background-image:
+      /* The image fade to white */
+      linear-gradient( to left, rgba(0,0,0,0) 10%, #fff 85%),
+      /* The image used */
+      url("{% static "img/cta-headphones.jpg" %}");
+      /* Set a specific height */
+      height:400px;
+      /* Create the parallax scrolling effect */
+      background-attachment: fixed;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      background-size: cover;
+      z-index: auto;
+      position: relative;
+    }
+
+  @media only screen and (max-width:600px) {
+    .cta-message {font-size:50px !important;}
+  }
+</style>
+
+  {% endblock %}

@@ -1,0 +1,50 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+
+<div class="article-banner text-center">
+    <br><br>
+    <div class="container">
+        <h1 class=" article-heading font-weight-bold">{{ article.article_title }}</h1>
+        <p class="font-weight-bold" style="font-size:15px">{{ article.article_published }}</p>
+        {% for tag in article.article_tags.all %}
+        <span class="badge badge-primary" style="font-size:14px; color:white">{{ tag }}</span>
+        {% endfor %}
+        
+    </div>
+</div>
+<div class="container">
+    <br>
+    <p>{{ article.article_content|safe }}</p>
+</div>
+
+<style>
+    .article-banner { 
+        background-image:
+        /* The image fade to white */
+        linear-gradient(to left, rgba(0,0,0,0) 10%, #fff 85%),
+        /* The image used */
+        url("{{ article.article_image.url }}");
+        /* Set a specific height */
+        height:200px;
+        /* Create the parallax scrolling effect */
+        background-attachment: fixed;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: auto;
+        position: relative;
+    }
+
+    /* all devices up to 786px */
+    @media only screen and (max-width:768px) {
+       .article-heading {font-size:22px !important;}
+   }
+
+   /* devices 768px to 1200px */
+   @media only screen and (min-width:768px) and (max-width:1200px) {
+      .article-heading {font-size:27px !important;}
+  }
+</style>
+
+{% endblock %}
